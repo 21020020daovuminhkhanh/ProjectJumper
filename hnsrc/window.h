@@ -2,7 +2,6 @@
 #define WINDOW_H_INCLUDED
 
 #pragma once
-#include "SDL.h"
 #include "utility.h"
 
 class window
@@ -11,12 +10,9 @@ public:
     window();
     ~window();
 
-    void setRect(const int &x, const int &y)
+    void setRect(const int &x, const int &y, const int &w, const int &h)
     {
-        rect_.x = x;
-        rect_.y = y;
-        rect_.w = width;
-        rect_.h = height;
+        rect_ = {x, y, w, h};
     }
 
     SDL_Rect getRect()
@@ -30,16 +26,16 @@ public:
     }
 
     bool loadImage(std::string path, SDL_Renderer* screen);
-    void render(SDL_Renderer* des, SDL_Rect* clip = NULL);
+    void render(SDL_Renderer* renderer, SDL_Rect* clip = NULL);
+    void renderWithRotation(SDL_Renderer* renderer, SDL_Rect* clip, int rotation);
     void setColor( Uint8 red, Uint8 green, Uint8 blue );
     void setAlpha(Uint8 alpha);
     void free();
 
+
 public:
     SDL_Texture* object_;
     SDL_Rect rect_;
-    int width = SCREEN_WIDTH;
-    int height = SCREEN_HEIGHT;
 };
 
 

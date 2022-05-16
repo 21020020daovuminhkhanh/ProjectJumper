@@ -14,24 +14,24 @@ window::~window()
     free();
 }
 
-bool window::loadImage(std::string path, SDL_Renderer* screen)
+bool window::loadImage(string path, SDL_Renderer* screen)
 {
     free();
-     SDL_Texture* newTexture = NULL;
-     SDL_Surface* loadSurface = IMG_Load(path.c_str());
-     SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 0xFF, 0, 0xFF));
-     newTexture = SDL_CreateTextureFromSurface(screen, loadSurface);
-     width = loadSurface->w;
-     height = loadSurface->h;
-     SDL_FreeSurface(loadSurface);
-     object_ = newTexture;
-     return (object_ != NULL);
+    SDL_Texture* newTexture = NULL;
+    SDL_Surface* loadSurface = IMG_Load(path.c_str());
+    SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 0xFF, 0, 0xFF));
+    SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 0, 0, 0xFF));
+    newTexture = SDL_CreateTextureFromSurface(screen, loadSurface);
+    rect_.w = loadSurface -> w;
+    rect_.h = loadSurface -> h;
+    SDL_FreeSurface(loadSurface);
+    object_ = newTexture;
+    return (object_ != NULL);
 }
 
-void window::render(SDL_Renderer* des, SDL_Rect* clip)
+void window::render(SDL_Renderer* renderer, SDL_Rect* clip)
 {
-    SDL_Rect renderquad = {rect_.x, rect_.y, rect_.w, rect_.h};
-    SDL_RenderCopy(des, object_, clip, &renderquad);
+    SDL_RenderCopy(renderer, object_, clip, &rect_);
 }
 
 void window::free()
@@ -52,3 +52,7 @@ void window::setAlpha(Uint8 alpha)
     SDL_SetTextureAlphaMod(object_, alpha);
 }
 
+void window::renderWithRotation(SDL_Renderer* renderer, SDL_Rect* clip, int rotation)
+{
+    SDL_RenderCopyEx(renderer, object_, clip, &rect_, rotation, NULL, SDL_FLIP_NONE);
+}

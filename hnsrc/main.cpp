@@ -1,18 +1,13 @@
 #include <iostream>
-#include "utility.h"
-#include "window.h"
 #include "render.h"
+#include "SDL_ttf.h"
 //#include "application.h"
 
 using namespace std;
 
-window gBackground;
-window gGround;
-window gLine;
-window gObject;
-SDL_Rect ob;
-SDL_Rect gr;
-SDL_Rect bg;
+int input = 0;
+int level = 1;
+render scene(gScreen, level);
 
 bool init()
 {
@@ -28,7 +23,7 @@ bool init()
         if (gScreen == NULL) success = false;
         else
         {
-            SDL_SetRenderDrawColor(gScreen, 0, 0, 0xFF, 0xFF);
+            SDL_SetRenderDrawColor(gScreen, LIGHT_BLUE_R, LIGHT_BLUE_G, LIGHT_BLUE_B, 255);
             int imgFlags = IMG_INIT_PNG;
 				if( !( IMG_Init( imgFlags ) & imgFlags ) )
 				{
@@ -41,35 +36,12 @@ bool init()
 
 bool load()
 {
-    bool flag = gBackground.loadImage("image/bg01.png", gScreen);
-    bool flag2 = gGround.loadImage("image/ground01.png", gScreen);
-    bool flag3 = gLine.loadImage("image/line.png", gScreen);
-    bool flag4 = gObject.loadImage("image/spikes.png", gScreen);
-    if (flag == false || flag2 == false) return false;
-    else
-    {
-        bg.x = 0;
-        bg.y = 448;
-        bg.w = 1024;
-        bg.h = 576;
-
-        ob.x = 0;
-        ob.y = 0;
-        ob.w = 42;
-        ob.h = 42;
-
-        gr.x = 0;
-        gr.y = 0;
-        gr.w = 256;
-        gr.h = 256;
-    }
-    return true;
+    if (scene.loadScene(gScreen) == false) return false;
+    else return true;
 }
 
 void close()
 {
-    gBackground.free();
-    gGround.free();
     SDL_DestroyRenderer(gScreen);
     gScreen = NULL;
     SDL_DestroyWindow(gWindow);
@@ -89,51 +61,24 @@ int main(int argc, char* argv[])
         while(SDL_PollEvent(&gEvent) != 0)
         {
             if (gEvent.type == SDL_QUIT) quit = true;
+            if (gEvent.type == SDL_KEYDOWN)
+            {
+                if (gEvent.key.keysym.sym == SDLK_SPACE)
+                    input = 1;
+                if (gEvent.key.keysym.sym == SDLK_ESCAPE)
+                    quit = true;
+            }
+            if (gEvent.type == SDL_KEYUP) input = 0;
         }
-        //Render texture to screen
-        SDL_SetTextureColorMod( gBackground.object_, 0xFF, 0xFF, 0xFF );
+
         SDL_RenderClear(gScreen);
 
-        SDL_Rect* clip = &bg;
-        gBackground.setColor(0, 0, 255);
-        gBackground.setAlpha(255);
-        gBackground.rect_.x += 1;
-        if (gBackground.rect_.x >= 1024) gBackground.rect_.x = 0;
-        gBackground.render(gScreen, clip);
-        gBackground.rect_.x -= 1024;
-        gBackground.render(gScreen, clip);
-        gBackground.rect_.x += 1024;
-
-        SDL_Rect* clip2 = &gr;
-        gGround.setAlpha(255);
-        gGround.rect_.y = 432;
-        gGround.rect_.w = 216;
-        gGround.rect_.h = 216;
-        gGround.rect_.x -= 4;
-        if (gGround.rect_.x <= -216) gGround.rect_.x = 0;
-        for (int i = 0; i < 6; i++)
-        {
-            gGround.render(gScreen, clip2);
-            gGround.rect_.x += 216;
-        }
-        gGround.rect_.x -= 1296;
-
-        SDL_Rect* clip3 = &ob;
-        gObject.rect_.x = 512;
-        gObject.rect_.y = 390;
-        gObject.rect_.w = 42;
-        gObject.rect_.h = 42;
-        gObject.render(gScreen, clip3);
-
-        gLine.rect_.x = 0;
-        gLine.rect_.y = 431;
-        gLine.rect_.w = 1024;
-        gLine.rect_.h = 2;
-        gLine.render(gScreen, NULL);
+        scene.drawScene(gScreen, input, quit);
 
         SDL_RenderPresent(gScreen);
-        SDL_Delay(16);
+        SDL_Delay(1);
     }
+
     close();
     return 0;
 }
