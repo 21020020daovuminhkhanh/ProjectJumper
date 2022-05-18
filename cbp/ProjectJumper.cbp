@@ -34,6 +34,8 @@
 		</Compiler>
 		<Unit filename="../hnsrc/gameMap.cpp" />
 		<Unit filename="../hnsrc/gameMap.h" />
+		<Unit filename="../hnsrc/gameMenu.cpp" />
+		<Unit filename="../hnsrc/gameMenu.h" />
 		<Unit filename="../hnsrc/main.cpp" />
 		<Unit filename="../hnsrc/player.cpp" />
 		<Unit filename="../hnsrc/player.h" />

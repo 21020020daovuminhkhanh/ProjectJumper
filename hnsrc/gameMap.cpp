@@ -63,12 +63,19 @@ void gamemap::setClips()
             clips[i].w = 42;
             clips[i].h = 42;
         }
-        else
+        else if (THREE_SIDES_WINDOW <= i && i <= TWO_SIDES_BLOCK)
         {
             clips[i].x = 44 * (i - 12);
             clips[i].y = 44;
             clips[i].w = 42;
             clips[i].h = 42;
+        }
+        else
+        {
+            clips[i].x = 46 * (i - 18);
+            clips[i].y = 0;
+            clips[i].w = 44;
+            clips[i].h = 85;
         }
     }
 }

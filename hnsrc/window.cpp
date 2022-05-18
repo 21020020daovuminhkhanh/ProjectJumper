@@ -19,8 +19,7 @@ bool window::loadImage(string path, SDL_Renderer* screen)
     free();
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadSurface = IMG_Load(path.c_str());
-    SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 0xFF, 0, 0xFF));
-    SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 0, 0, 0xFF));
+    SDL_SetColorKey(loadSurface, SDL_TRUE, SDL_MapRGB(loadSurface->format, 167, 175, 180));
     newTexture = SDL_CreateTextureFromSurface(screen, loadSurface);
     rect_.w = loadSurface -> w;
     rect_.h = loadSurface -> h;

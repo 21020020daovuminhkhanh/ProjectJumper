@@ -6,6 +6,8 @@
 #include <SDL_image.h>
 #include <string>
 #include <iostream>
+#include "SDL_ttf.h"
+#include "SDL_mixer.h"
 
 using namespace std;
 
@@ -40,9 +42,21 @@ enum objectType
     TWO_SIDES_P_BLOCK,
     TWO_SIDES_WINDOW,
     TWO_SIDES_BLOCK,
+    PINK_PORTAL,
+    GREEN_PORTAL,
     NUMBER_OF_OBJECT,
 };
 
+const int BUTTON_WIDTH = 540;
+const int BUTTON_HEIGHT = 91;
+const int TOTAL_BUTTONS = 3;
 
+enum LButtonSprite
+{
+	BUTTON_SPRITE_MOUSE_OUT = 0,
+	BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
+	BUTTON_SPRITE_MOUSE_DOWN = 2,
+	BUTTON_SPRITE_TOTAL = 3
+};
 
 #endif // UTILITY_H_INCLUDED

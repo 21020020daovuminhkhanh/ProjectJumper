@@ -6,16 +6,14 @@
 
 class player {
 public:
-	player(SDL_Renderer* ren);
 	player();
 	void update(SDL_Renderer* renderer, int input, int status);
-	bool collisions(SDL_Rect objectRect, int objectType);
+	bool collisions(SDL_Rect objectRect, int objectType, int &status);
 
 	window gPlayer;
-	//window cube;
-	//window ship;
 	float rotation = 0;
-	float acc = 0;
+	float jumpVel = 0;
+	float flyingVel = 0;
 	int status = 0;
 };
 

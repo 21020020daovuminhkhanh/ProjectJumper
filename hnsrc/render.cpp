@@ -21,10 +21,6 @@ render::render(SDL_Renderer* renderer, int level)
     gBackground.setRect(0, 0, 1024, 576);
     gGround.setRect(0, 432, 216, 216);
     gMap.setObject(level);
-    SDL_LoadWAV("audio/stereoMadness.wav", &wavSpec, &wavBuffer, &wavLength);
-	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-	SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-	SDL_PauseAudioDevice(deviceId, 0);
 }
 
 void render::setBackground(SDL_Renderer* renderer)
@@ -66,7 +62,7 @@ void render::setPlayer(SDL_Renderer* renderer, int input)
     gPlayer.gPlayer.rect_.w = 42;
     gPlayer.gPlayer.rect_.h = 42;
     gPlayer.gPlayer.rect_.x = 300;
-    gPlayer.update(renderer, input, 0);
+    gPlayer.update(renderer, input, status);
 }
 
 
@@ -75,8 +71,19 @@ bool render::loadScene(SDL_Renderer* renderer)
     bool flag1 = gBackground.loadImage("image/bg01.png", renderer);
     bool flag2 = gGround.loadImage("image/ground.png", renderer);
     bool flag3 = gLine.loadImage("image/line.png", renderer);
-    bool flag4 = gPlayer.gPlayer.loadImage("image/player.png", renderer);
+    bool flag4 = deadEffect.loadImage("image/exp3.png", renderer);
     if (flag1 == false || flag2 == false || flag3 == false || flag4 == false) return false;
+    gMusic = Mix_LoadMUS( "audio/stereoMadness.wav" );
+	if( gMusic == NULL )
+	{
+		return false;
+	}
+
+	gDeadSound = Mix_LoadWAV( "audio/explode_11.wav" );
+	if( gDeadSound == NULL )
+	{
+		return false;
+	}
     return true;
 }
 
@@ -86,18 +93,25 @@ void render::drawScene(SDL_Renderer* renderer, int input, bool &quit)
     setGround(renderer);
     setLine(renderer);
     setPlayer(renderer, input);
+    if( Mix_PlayingMusic() == 0 )
+    {
+        Mix_PlayMusic( gMusic, -1 );
+    }
     for (int i = 0; i < gMap.od.size(); i++)
         {
             if (gMap.od[i].objectType >= 0 && gMap.od[i].objectType <= 1) flag = object.loadImage("image/smallBlocks.png", renderer);
             else if (gMap.od[i].objectType >= 2 && gMap.od[i].objectType <= 5) flag = object.loadImage("image/spikes.png", renderer);
-            else flag = object.loadImage("image/spritesheet.png", renderer);
+            else if (gMap.od[i].objectType >= 6 && gMap.od[i].objectType <= 17) flag = object.loadImage("image/spritesheet.png", renderer);
+            else flag = object.loadImage("image/portal.png", renderer);
             object.rect_ = gMap.od[i].objectRect;
             object.rect_.x += MAP_X;
-            if (!gPlayer.collisions(object.rect_, gMap.od[i].objectType))
+            if (!gPlayer.collisions(object.rect_, gMap.od[i].objectType, status))
             {
                 MAP_X = 1000 ;
-                //quit = true;
-                cout << "you die!";
+                Mix_PlayChannel( -1, gDeadSound, 0 );
+                Mix_HaltMusic();
+                status = 0;
+                SDL_Delay(500);
             }
             gMap.clip_ = &gMap.clips[gMap.od[i].objectType];
             if (object.rect_.x >= -42 && object.rect_.x <= 1024)

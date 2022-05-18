@@ -1,13 +1,13 @@
 #include <iostream>
 #include "render.h"
-#include "SDL_ttf.h"
-//#include "application.h"
+#include "gameMenu.h"
 
 using namespace std;
 
 int input = 0;
 int level = 1;
 render scene(gScreen, level);
+gameMenu gMenu;
 
 bool init()
 {
@@ -26,6 +26,10 @@ bool init()
             SDL_SetRenderDrawColor(gScreen, LIGHT_BLUE_R, LIGHT_BLUE_G, LIGHT_BLUE_B, 255);
             int imgFlags = IMG_INIT_PNG;
 				if( !( IMG_Init( imgFlags ) & imgFlags ) )
+				{
+					success = false;
+				}
+				if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
 				{
 					success = false;
 				}
@@ -60,7 +64,8 @@ int main(int argc, char* argv[])
     {
         while(SDL_PollEvent(&gEvent) != 0)
         {
-            if (gEvent.type == SDL_QUIT) quit = true;
+            gMenu.handleEvent(&gEvent);
+            /*if (gEvent.type == SDL_QUIT) quit = true;
             if (gEvent.type == SDL_KEYDOWN)
             {
                 if (gEvent.key.keysym.sym == SDLK_SPACE)
@@ -68,13 +73,13 @@ int main(int argc, char* argv[])
                 if (gEvent.key.keysym.sym == SDLK_ESCAPE)
                     quit = true;
             }
-            if (gEvent.type == SDL_KEYUP) input = 0;
+            if (gEvent.type == SDL_KEYUP) input = 0;*/
         }
 
         SDL_RenderClear(gScreen);
+        gMenu.render(gScreen);
 
-        scene.drawScene(gScreen, input, quit);
-
+        //scene.drawScene(gScreen, input, quit);
         SDL_RenderPresent(gScreen);
         SDL_Delay(1);
     }

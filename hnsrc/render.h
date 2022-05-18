@@ -23,21 +23,21 @@ public:
 
 
 
-    SDL_AudioSpec wavSpec;
-	Uint32 wavLength;
-	Uint8 *wavBuffer;
-	SDL_AudioDeviceID deviceId;
+    Mix_Music *gMusic;
+    Mix_Chunk *gDeadSound;
     player gPlayer;
     gamemap gMap;
     window gBackground;
     window gGround;
     window gLine;
     window object;
+    window deadEffect;
     bool flag;
     SDL_Rect bg;
     SDL_Rect gr;
     SDL_Rect* clip;
     int MAP_X = 1000;
+    int status = 0;
 };
 
 
