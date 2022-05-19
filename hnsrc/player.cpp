@@ -46,7 +46,7 @@ bool player::collisions(SDL_Rect objectRect, int objectType, int &status) {
     else if (objectType == PINK_PORTAL)
     {
         if((gPlayer.rect_.y >= objectRect.y - 40) &&
-           (gPlayer.rect_.y <= objectRect.y + 1) &&
+           (gPlayer.rect_.y <= objectRect.y + 45) &&
            (gPlayer.rect_.x >= objectRect.x - 44) &&
            (gPlayer.rect_.x < objectRect.x + 44))
         status = 1;
@@ -54,7 +54,7 @@ bool player::collisions(SDL_Rect objectRect, int objectType, int &status) {
     else
     {
         if((gPlayer.rect_.y >= objectRect.y - 40) &&
-           (gPlayer.rect_.y <= objectRect.y + 1) &&
+           (gPlayer.rect_.y <= objectRect.y + 45) &&
            (gPlayer.rect_.x >= objectRect.x - 44) &&
            (gPlayer.rect_.x < objectRect.x + 44))
         status = 0;
@@ -96,13 +96,13 @@ void player::update(SDL_Renderer* renderer, int input, int status) {
         }
         if (input == 1)
         {
-            flyingVel = -15;
-            rotation -= 6;
+            flyingVel = -14;
+            rotation -= 1;
             if (rotation <= -45) rotation = -45;
         }
         if (input == 0)
         {
-            rotation += 2;
+            rotation += 1;
             if (rotation >= 45) rotation = 45;
         }
         flyingVel += 0.5;

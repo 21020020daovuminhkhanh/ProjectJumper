@@ -47,8 +47,8 @@ enum objectType
     NUMBER_OF_OBJECT,
 };
 
-const int BUTTON_WIDTH = 540;
-const int BUTTON_HEIGHT = 91;
+const int BUTTON_WIDTH = 270;
+const int BUTTON_HEIGHT = 45;
 const int TOTAL_BUTTONS = 3;
 
 enum LButtonSprite
