@@ -7,14 +7,14 @@
 class player {
 public:
 	player();
-	void update(SDL_Renderer* renderer, int input, int status);
-	bool collisions(SDL_Rect objectRect, int objectType, int &status);
+	void update(SDL_Renderer* renderer, int input, int &mode);
+	bool collisions(SDL_Rect objectRect, int objectType, int &mode);
 
 	window gPlayer;
 	float rotation = 0;
 	float jumpVel = 0;
 	float flyingVel = 0;
-	int status = 0;
+	int mode = 0;
 };
 
 

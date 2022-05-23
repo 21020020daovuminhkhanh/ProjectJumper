@@ -2,22 +2,23 @@
 #include <math.h>
 #include <iostream>
 
+const int BLOCK_SIZE = 42;
 player::player() {}
 
-bool player::collisions(SDL_Rect objectRect, int objectType, int &status) {
+bool player::collisions(SDL_Rect objectRect, int objectType, int &mode) {
     if (objectType <= BLOCK || (objectType >= FOUR_SIDES_WINDOW && objectType <= TWO_SIDES_BLOCK))
     {
-        if((gPlayer.rect_.y >= objectRect.y - 42) &&
+        if((gPlayer.rect_.y >= objectRect.y -  BLOCK_SIZE) &&
            (gPlayer.rect_.y <= objectRect.y) &&
-           (gPlayer.rect_.x >= objectRect.x - 42) &&
-           (gPlayer.rect_.x < objectRect.x + 42))
+           (gPlayer.rect_.x >= objectRect.x -  BLOCK_SIZE) &&
+           (gPlayer.rect_.x < objectRect.x +  BLOCK_SIZE))
         {
-            gPlayer.rect_.y = objectRect.y - 52;
+            gPlayer.rect_.y = objectRect.y -  BLOCK_SIZE - 10;
             jumpVel = 0;
         }
-        else if ((gPlayer.rect_.y <= objectRect.y + 42) &&
+        else if ((gPlayer.rect_.y <= objectRect.y +  BLOCK_SIZE) &&
                 (gPlayer.rect_.y >= objectRect.y) &&
-                (gPlayer.rect_.x >= objectRect.x - 42) &&
+                (gPlayer.rect_.x >= objectRect.x -  BLOCK_SIZE) &&
                  (gPlayer.rect_.x <= objectRect.x))
         {
             return false;
@@ -46,28 +47,31 @@ bool player::collisions(SDL_Rect objectRect, int objectType, int &status) {
     else if (objectType == PINK_PORTAL)
     {
         if((gPlayer.rect_.y >= objectRect.y - 40) &&
-           (gPlayer.rect_.y <= objectRect.y + 45) &&
+           (gPlayer.rect_.y <= objectRect.y + 85) &&
            (gPlayer.rect_.x >= objectRect.x - 44) &&
            (gPlayer.rect_.x < objectRect.x + 44))
-        status = 1;
+        {
+            mode = SHIP;
+            rotation = 0;
+        }
     }
     else
     {
         if((gPlayer.rect_.y >= objectRect.y - 40) &&
-           (gPlayer.rect_.y <= objectRect.y + 45) &&
+           (gPlayer.rect_.y <= objectRect.y + 85) &&
            (gPlayer.rect_.x >= objectRect.x - 44) &&
            (gPlayer.rect_.x < objectRect.x + 44))
-        status = 0;
+        mode = CUBE;
     }
     return true;
 }
 
-void player::update(SDL_Renderer* renderer, int input, int status) {
-    if (status == 0)
+void player::update(SDL_Renderer* renderer, int input, int &mode) {
+    if (mode == CUBE)
     {
-        bool flag = gPlayer.loadImage("image/player.png", renderer);
-        gPlayer.rect_.w = 42;
-        gPlayer.rect_.h = 42;
+        bool flag = gPlayer.loadImage("image/cube.png", renderer);
+        gPlayer.rect_.w =  BLOCK_SIZE;
+        gPlayer.rect_.h =  BLOCK_SIZE;
         if(gPlayer.rect_.y >= 390)
         {
             gPlayer.rect_.y = 390; jumpVel = 0;
@@ -85,13 +89,18 @@ void player::update(SDL_Renderer* renderer, int input, int status) {
     }
     else
     {
-        bool flag = gPlayer.loadImage("image/spaceship.png", renderer);
+        bool flag = gPlayer.loadImage("image/ship.png", renderer);
         gPlayer.rect_.w = 42;
         gPlayer.rect_.h = 42;
         if(gPlayer.rect_.y >= 390)
         {
             gPlayer.rect_.y = 390;
             flyingVel = 0;
+            rotation = 0;
+        }
+        if (gPlayer.rect_.y <= 0)
+        {
+            gPlayer.rect_.y = 0;
             rotation = 0;
         }
         if (input == 1)

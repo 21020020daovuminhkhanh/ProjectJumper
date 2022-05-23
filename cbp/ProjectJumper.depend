@@ -11,12 +11,12 @@
 	<SDL_image.h>
 	<string>
 
-1652969817 source:d:\laptrinh\github\projectjumper\hnsrc\main.cpp
+1653227826 source:d:\laptrinh\github\projectjumper\hnsrc\main.cpp
 	<iostream>
 	"render.h"
 	"gameMenu.h"
 
-1652954014 d:\laptrinh\github\projectjumper\hnsrc\utility.h
+1653227826 d:\laptrinh\github\projectjumper\hnsrc\utility.h
 	<SDL.h>
 	<SDL_image.h>
 	<string>
@@ -24,28 +24,28 @@
 	"SDL_ttf.h"
 	"SDL_mixer.h"
 
-1652537710 d:\laptrinh\github\projectjumper\hnsrc\window.h
+1653056550 d:\laptrinh\github\projectjumper\hnsrc\window.h
 	"utility.h"
 
-1652880449 source:d:\laptrinh\github\projectjumper\hnsrc\window.cpp
+1653056550 source:d:\laptrinh\github\projectjumper\hnsrc\window.cpp
 	"window.h"
 
-1652880522 source:d:\laptrinh\github\projectjumper\hnsrc\render.cpp
+1653276275 source:d:\laptrinh\github\projectjumper\hnsrc\render.cpp
 	"render.h"
 
-1652968069 d:\laptrinh\github\projectjumper\hnsrc\render.h
+1653235643 d:\laptrinh\github\projectjumper\hnsrc\render.h
 	"SDL.h"
 	"window.h"
-	"gamemap.h"
+	"gameMap.h"
 	"utility.h"
 	"player.h"
 
-1652967867 source:d:\laptrinh\github\projectjumper\hnsrc\player.cpp
+1653276353 source:d:\laptrinh\github\projectjumper\hnsrc\player.cpp
 	"player.h"
 	<math.h>
 	<iostream>
 
-1652868715 d:\laptrinh\github\projectjumper\hnsrc\player.h
+1653128967 d:\laptrinh\github\projectjumper\hnsrc\player.h
 	"window.h"
 
 1652684658 d:\laptrinh\github\projectjumper\hnsrc\gamemap.h
@@ -57,10 +57,11 @@
 1652865157 source:d:\laptrinh\github\projectjumper\hnsrc\gamemap.cpp
 	"gameMap.h"
 
-1652970416 source:d:\laptrinh\github\projectjumper\hnsrc\gamemenu.cpp
+1653129847 source:d:\laptrinh\github\projectjumper\hnsrc\gamemenu.cpp
 	"gameMenu.h"
 
-1652969891 d:\laptrinh\github\projectjumper\hnsrc\gamemenu.h
+1653129847 d:\laptrinh\github\projectjumper\hnsrc\gamemenu.h
 	"window.h"
 	"utility.h"
+	"render.h"
 

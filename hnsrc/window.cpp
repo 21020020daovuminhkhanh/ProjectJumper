@@ -1,5 +1,6 @@
 #include "window.h"
 
+
 window::window()
 {
     object_ = NULL;

@@ -25,7 +25,7 @@ public:
         return object_;
     }
 
-    bool loadImage(std::string path, SDL_Renderer* screen);
+    bool loadImage(string path, SDL_Renderer* screen);
     void render(SDL_Renderer* renderer, SDL_Rect* clip = NULL);
     void renderWithRotation(SDL_Renderer* renderer, SDL_Rect* clip, int rotation);
     void setColor( Uint8 red, Uint8 green, Uint8 blue );
